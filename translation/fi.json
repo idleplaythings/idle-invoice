@@ -1,0 +1,31 @@
+{
+    "__numeric": {
+        "match": "^([0-9]*)\\.([0-9]{2})$",
+        "replace": "$1,$2"
+    },
+    "Invoice": "Lasku",
+    "Description": "Selite",
+    "Amount": "Määrä",
+    "Unit price": "Yks.hinta",
+    "VAT %": "Alv %",
+    "VAT total": "Alv yht.",
+    "Total": "Yhteensä",
+    "VAT total": "Alv",
+    "Total (excl. VAT)": "Veroton",
+    "DUE": "MAKSETTAVA",
+    "Date": "Päivämäärä",
+    "Due date": "Eräpäivä",
+    "Customer No": "Asiakasnro",
+    "Invoice No": "Laskun nro",
+    "Payment terms": "Maksuehto",
+    "Penal interest": "Viivästyskorko",
+    "Notice period": "Huomautusaika",
+    "REFERENCE": "VIITE",
+    "Company": "Yritys",
+    "Address": "Osoite",
+    "Company ID": "Y-tunnus",
+    "Email": "Email",
+
+    "14 days net": "14 pv netto",
+    "10 days": "10 pv"
+}

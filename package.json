@@ -1,0 +1,26 @@
+{
+  "name": "idle-invoice",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/idle-invoice.js",
+  "scripts": {
+    "test": "echo '### Specs' && jasmine-node --verbose spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/idleplaythings/idle-invoice.git"
+  },
+  "author": "Niko Nevala",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/idleplaythings/idle-invoice/issues"
+  },
+  "homepage": "https://github.com/idleplaythings/idle-invoice",
+  "dependencies": {
+    "pdfkit": "0.5.2",
+    "js-yaml": "3.0.2"
+  },
+  "devDependencies": {
+    "jasmine-node": "1.14.x"
+  }
+}

@@ -30,6 +30,10 @@ Invoice.prototype._calculateLineItem = function(lineItem) {
     this._totals.tax = this._totals.tax.plus(lineItem.getTaxTotal());
 };
 
+Invoice.prototype.getCurrencySymbol = function() {
+    return this._invoice.currencySymbol;
+};
+
 Invoice.prototype.getMeta = function() {
     return this._invoice.meta;
 };

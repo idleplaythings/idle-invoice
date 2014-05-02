@@ -141,14 +141,14 @@ PdfRenderer.prototype._renderLineItem = function(lineItem) {
 
 PdfRenderer.prototype._renderTotals = function(invoice) {
     this._down(3);
-    this._text(this.__('VAT total') + ' EUR', 3, 4, 'right');
+    this._text(this.__('VAT total') + ' ' + invoice.getCurrencySymbol(), 3, 4, 'right');
     this._text(this.__(invoice.getTaxTotal()), 7, 2, 'right');
     this._down(1);
-    this._text(this.__('Total (excl. VAT)') + ' EUR', 3, 4, 'right');
+    this._text(this.__('Total (excl. VAT)') + ' ' + invoice.getCurrencySymbol(), 3, 4, 'right');
     this._text(this.__(invoice.getTotalExclTax()), 7, 2, 'right');
     this._down(1.5);
     this._boldFont();
-    this._text(this.__('DUE') + ' EUR', 3, 4, 'right');
+    this._text(this.__('DUE') + ' ' + invoice.getCurrencySymbol(), 3, 4, 'right');
     this._text(this.__(invoice.getTotalInclTax()), 7, 2, 'right');
     this._normalFont();
     this._down(3);
@@ -251,10 +251,10 @@ PdfRenderer.prototype._boldFont = function() {
 
 PdfRenderer.prototype.margins = function() {
     return {
-        top: 50,
-        right: 50,
+        top: 40,
+        right: 40,
         bottom: 50,
-        left: 50
+        left: 40
     };
 };
 

@@ -15,7 +15,7 @@ try {
     var fi = new Translation('./translation/fi.json');
 
     var renderer = new PdfRenderer(fi.getTranslator());
-    renderer.render(invoice, 'test2.pdf');
+    renderer.render(invoice, process.stdout);
 } catch(e) {
     console.log(e.stack)
 }

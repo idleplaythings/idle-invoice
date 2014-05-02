@@ -1,4 +1,3 @@
-var fs = require('fs');
 var PDFDocument = require('pdfkit');
 
 var PdfRenderer = function PdfRenderer(translate) {
@@ -7,14 +6,14 @@ var PdfRenderer = function PdfRenderer(translate) {
     this.__ = this._translate;
 }
 
-PdfRenderer.prototype.render = function(invoice, path) {
+PdfRenderer.prototype.render = function(invoice, stream) {
     this._reset();
     // this._renderColumns();
     this._renderHeader(invoice);
     this._renderLineItems(invoice);
     this._renderTotals(invoice);
     this._renderFooter(invoice);
-    this._writeStream(path);
+    this._writeStream(stream);
 };
 
 PdfRenderer.prototype._reset = function() {
@@ -290,8 +289,8 @@ PdfRenderer.prototype.contentHeight = function() {
     return this.pageHeight() - this.top() - this.bottom();
 };
 
-PdfRenderer.prototype._writeStream = function(path) {
-    this._pdf.pipe(fs.createWriteStream(path));
+PdfRenderer.prototype._writeStream = function(stream) {
+    this._pdf.pipe(stream);
     this._pdf.end();
 };
 

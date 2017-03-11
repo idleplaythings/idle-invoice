@@ -1,1 +1,10 @@
-{}
+{
+    "__numeric": {
+        "decimalSeparator": ".",
+        "thousandsSeparator": ","
+    },
+    "date": "Date",
+    "dueDate": "Due date",
+    "customerNo": "Customer ref",
+    "invoiceNo": "Invoice no"
+}

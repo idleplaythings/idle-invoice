@@ -30,16 +30,36 @@ Translation.prototype._numericMatch = function(str) {
         return false;
     }
 
-    var match = new RegExp(this._source.__numeric.match);
+    var match = new RegExp('^-*([0-9]*)\\.([0-9]{2})$');
     var matches = str.match(match);
 
     return matches !== null;
 };
 
 Translation.prototype._formatNumber = function(str) {
-    var match = new RegExp(this._source.__numeric.match);
-    var replace = this._source.__numeric.replace;
-    return str.replace(match, replace);
+    var parts = str.split('.');
+    var integer = parts[0];
+    var fractional = parts[1];
+    var negative = false;
+
+    if (integer[0] === '-') {
+        negative = true;
+        integer = integer.substr(1);
+    }
+
+    integer = integer.split('').reverse().map(function(digit, index) {
+        if (index !== 0 && index % 3 === 0) {
+            return digit + this._source.__numeric.thousandsSeparator;
+        }
+
+        return digit;
+    }.bind(this)).reverse().join('');
+
+    if (negative) {
+        integer = '-' + integer;
+    }
+
+    return integer + this._source.__numeric.decimalSeparator + fractional;
 };
 
 exports.Translation = Translation;

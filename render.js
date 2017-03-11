@@ -12,10 +12,10 @@ try {
     var doc = yaml.safeLoad(fs.readFileSync(invoiceFile, 'utf8'));
     var invoice = new Invoice(doc);
 
-    var fi = new Translation('./translation/fi.json');
+    var translation = new Translation('./translation/' + invoice.getLanguage() + '.json');
 
-    var renderer = new PdfRenderer(fi.getTranslator());
+    var renderer = new PdfRenderer(translation.getTranslator());
     renderer.render(invoice, process.stdout);
 } catch(e) {
-    console.log(e.stack)
+    console.error(e.stack);
 }

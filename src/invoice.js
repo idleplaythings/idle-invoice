@@ -30,8 +30,28 @@ Invoice.prototype._calculateLineItem = function(lineItem) {
     this._totals.tax = this._totals.tax.plus(lineItem.getTaxTotal());
 };
 
+Invoice.prototype.getHeader = function() {
+    return this._invoice.company;
+};
+
+Invoice.prototype.getLanguage = function() {
+    return this._invoice.language;
+};
+
 Invoice.prototype.getCurrencySymbol = function() {
     return this._invoice.currencySymbol;
+};
+
+Invoice.prototype.getIban = function() {
+    return this._invoice.paymentDetails.iban;
+};
+
+Invoice.prototype.getSwift = function() {
+    return this._invoice.paymentDetails.swift;
+};
+
+Invoice.prototype.getReference = function() {
+    return this._invoice.paymentDetails.reference;
 };
 
 Invoice.prototype.getMeta = function() {
@@ -52,6 +72,14 @@ Invoice.prototype.getTotalInclTax = function() {
 
 Invoice.prototype.getTaxTotal = function() {
     return this._totals.tax.toFixed(2);
+};
+
+Invoice.prototype.getBillingAddress = function() {
+    return this._invoice.billingAddress;
+};
+
+Invoice.prototype.getFooter = function() {
+    return this._invoice.footer;
 };
 
 exports.Invoice = Invoice;

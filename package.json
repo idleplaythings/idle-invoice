@@ -18,7 +18,8 @@
   "homepage": "https://github.com/idleplaythings/idle-invoice",
   "dependencies": {
     "pdfkit": "0.5.2",
-    "js-yaml": "3.0.2"
+    "js-yaml": "3.0.2",
+    "csv": "0.3.7"
   },
   "devDependencies": {
     "jasmine-node": "1.14.x"

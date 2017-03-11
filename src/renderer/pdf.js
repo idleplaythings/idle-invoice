@@ -62,7 +62,7 @@ PdfRenderer.prototype._normalStroke = function() {
 
 PdfRenderer.prototype._renderHeader = function(invoice) {
     this._title();
-    this._header();
+    this._header(invoice);
     this._down(2);
     this._horizontalRuler();
     this._down(1);
@@ -76,15 +76,15 @@ PdfRenderer.prototype._renderHeader = function(invoice) {
 PdfRenderer.prototype._title = function() {
     this._saveY();
     this._headerFont();
-    this._text(this.__('Invoice'), 5, 2);
+    this._text(this.__('Invoice'), 6, 2);
     this._normalFont();
     this._restoreY();
 };
 
-PdfRenderer.prototype._header = function() {
+PdfRenderer.prototype._header = function(invoice) {
     this._saveY();
     this._headerFont();
-    this._text('Idle Playthings Oy', 0, 5);
+    this._text(invoice.getHeader(), 0, 5);
     this._normalFont();
     this._restoreY();
 };
@@ -97,7 +97,7 @@ PdfRenderer.prototype._horizontalRuler = function() {
 };
 
 PdfRenderer.prototype._renderBillingDetails = function(invoice) {
-    this._text('Fraktio Oy\nKaupintie 5, 5. kerros\n00440 Helsinki', 0, 5);
+    this._text(invoice.getBillingAddress(), 0, 5);
 };
 
 PdfRenderer.prototype._renderMeta = function(invoice) {
@@ -109,70 +109,87 @@ PdfRenderer.prototype._renderMeta = function(invoice) {
 
 PdfRenderer.prototype._renderMetaItem = function(item, value) {
     this._boldFont();
-    this._text(item, 5, 2);
+    this._text(item, 6, 2);
     this._normalFont();
-    this._text(value, 7, 2);
+    this._text(value, 8, 2);
     this._down(1);
 };
 
 PdfRenderer.prototype._renderLineItems = function(invoice) {
     this._headingFont();
-    this._text(this.__('Description'), 0, 3);
-    this._text(this.__('Amount'), 4, 1, 'right');
-    this._text(this.__('Unit price'), 5, 1, 'right');
-    this._text(this.__('VAT %'), 6, 1, 'right');
-    this._text(this.__('VAT total'), 7, 1, 'right');
-    this._text(this.__('Total'), 8, 1, 'right');
+    this._text(this.__('Description'), 0, 5);
+    this._text(this.__('Amount'), 5, 1, 'right');
+    this._text(this.__('Unit price'), 6, 1, 'right');
+    this._text(this.__('VAT %'), 7, 1, 'right');
+    this._text(this.__('VAT total'), 8, 1, 'right');
+    this._text(this.__('Total'), 9, 1, 'right');
     this._normalFont();
-    this._down(1.25);
+    this._down(1);
     invoice.getLineItems().forEach(this._renderLineItem.bind(this));
 };
 
 PdfRenderer.prototype._renderLineItem = function(lineItem) {
-    this._text(lineItem.getDescription(), 0, 3);
-    this._text(this.__(lineItem.getAmount()) + ' ' + lineItem.getDisplayUnit(), 4, 1, 'right');
-    this._text(this.__(lineItem.getPriceExclTax()), 5, 1, 'right');
-    this._text(this.__(lineItem.getTaxPercentage()), 6, 1, 'right');
-    this._text(this.__(lineItem.getTaxTotal()), 7, 1, 'right');
-    this._text(this.__(lineItem.getTotalInclTax()), 8, 1, 'right');
-    this._down(1);
+    this._smallFont();
+    var y = this._text(lineItem.getDescription(), 0, 5);
+    this._text(this.__(lineItem.getAmount()) + ' ' + lineItem.getDisplayUnit(), 5, 1, 'right');
+    this._text(this.__(lineItem.getPriceExclTax()), 6, 1, 'right');
+    this._text(this.__(lineItem.getTaxPercentage()), 7, 1, 'right');
+    this._text(this.__(lineItem.getTaxTotal()), 8, 1, 'right');
+    this._text(this.__(lineItem.getTotalInclTax()), 9, 1, 'right');
+    this._normalFont();
+    this._pdf.y = y;
+    this._down(0.5);
 };
 
 PdfRenderer.prototype._renderTotals = function(invoice) {
     this._down(3);
-    this._text(this.__('VAT total') + ' ' + invoice.getCurrencySymbol(), 3, 4, 'right');
-    this._text(this.__(invoice.getTaxTotal()), 7, 2, 'right');
-    this._down(1);
-    this._text(this.__('Total (excl. VAT)') + ' ' + invoice.getCurrencySymbol(), 3, 4, 'right');
-    this._text(this.__(invoice.getTotalExclTax()), 7, 2, 'right');
-    this._down(1.5);
     this._boldFont();
-    this._text(this.__('DUE') + ' ' + invoice.getCurrencySymbol(), 3, 4, 'right');
-    this._text(this.__(invoice.getTotalInclTax()), 7, 2, 'right');
+    this._text(this.__('TOTALS'), 6.8, 3);
+    this._normalFont();
+    this._down(1.5);
+    this._text(this.__('VAT total'), 0, 6.5, 'right');
+    // this._text(this.__(invoice.getTaxTotal()) + ' ' + invoice.getCurrencySymbol(), 6.8, 3);
+    this._text(invoice.getCurrencySymbol(), 6.8, 1);
+    this._text(this.__(invoice.getTaxTotal()), 6, 3, 'right');
+    this._down(1.2);
+    this._text(this.__('Total (excl. VAT)'), 0, 6.5, 'right');
+    // this._text(this.__(invoice.getTotalExclTax()) + ' ' + invoice.getCurrencySymbol(), 6.8, 3);
+    this._text(invoice.getCurrencySymbol(), 6.8, 1);
+    this._text(this.__(invoice.getTotalExclTax()), 6, 3, 'right');
+    this._down(1.2);
+    this._boldFont();
+    this._text(this.__('DUE'), 0, 6.5, 'right');
+    // this._text(this.__(invoice.getTotalInclTax()) + ' ' + invoice.getCurrencySymbol(), 6.8, 3);
+    this._text(invoice.getCurrencySymbol(), 6.8, 1);
+    this._text(this.__(invoice.getTotalInclTax()),  6, 3, 'right');
     this._normalFont();
     this._down(3);
     this._boldFont();
+    this._text(this.__('PAYMENT DETAILS'), 6.8, 3);
+    this._normalFont();
+    this._down(1.5);
+    this._boldFont();
     this._text(this.__('IBAN') + ':', 0, 6.5, 'right');
     this._normalFont();
-    this._text(this.__('FIXX XXXX XXXX XXXX XX'), 6.6, 3);
+    this._text(invoice.getIban(), 6.8, 3);
     this._down(1.2);
     this._boldFont();
     this._text(this.__('SWIFT (BIC)') + ':', 0, 6.5, 'right');
     this._normalFont();
-    this._text(this.__('XXXXXXXX'), 6.6, 3);
+    this._text(invoice.getSwift(), 6.8, 3);
     this._down(1.2);
     this._boldFont();
     this._text(this.__('REFERENCE') + ':', 0, 6.5, 'right');
     this._normalFont();
-    this._text(this.__('XXXXX'), 6.6, 3);
+    this._text(invoice.getReference(), 6.8, 3);
 };
 
-PdfRenderer.prototype._renderFooter = function() {
+PdfRenderer.prototype._renderFooter = function(invoice) {
     this._pdf.y = this.top() + this.contentHeight();
     this._smallFont();
     this._horizontalRuler();
     this._down(1);
-    this._text('Idle Playthings Oy (2612717-3) | Linnoituskuja 1 A 8, 01280 VANTAA | contact@idleplaythings.com', 0, 10, 'center');
+    this._text(invoice.getFooter(), 0, 10, 'center');
 };
 
 PdfRenderer.prototype._up = function(amount) {
@@ -212,7 +229,9 @@ PdfRenderer.prototype._text = function(text, startColumn, widthInColumns, align)
         align: align,
         width: width
     });
+    var _y = this._pdf.y;
     this._pdf.y = y;
+    return _y;
 };
 
 PdfRenderer.prototype._column = function(number) {
@@ -251,9 +270,9 @@ PdfRenderer.prototype._boldFont = function() {
 PdfRenderer.prototype.margins = function() {
     return {
         top: 40,
-        right: 40,
+        right: 50,
         bottom: 50,
-        left: 40
+        left: 50
     };
 };
 

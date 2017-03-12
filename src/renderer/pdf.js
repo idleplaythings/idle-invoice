@@ -13,7 +13,7 @@ PdfRenderer.prototype.render = function(invoice, stream) {
     this._renderLineItems(invoice);
     this._renderTotals(invoice);
     this._renderFooter(invoice);
-    this._writeStream(stream);
+    //this._writeStream(stream);
 };
 
 PdfRenderer.prototype._reset = function() {
@@ -101,10 +101,15 @@ PdfRenderer.prototype._renderBillingDetails = function(invoice) {
 };
 
 PdfRenderer.prototype._renderMeta = function(invoice) {
-    var meta = invoice.getMeta();
-    for (item in meta) {
-        this._renderMetaItem(this.__(item), this.__(meta[item]));
-    }
+    [        
+        'date',
+        'dueDate',
+        'customerNo',
+        'invoiceNo',
+        'paymentTerms',
+        'penalInterest',
+        'noticePeriod',
+    ].forEach((item) => this._renderMetaItem(this.__(item), this.__(invoice._invoice[item])))
 };
 
 PdfRenderer.prototype._renderMetaItem = function(item, value) {

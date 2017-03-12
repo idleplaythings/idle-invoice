@@ -3,7 +3,7 @@ var big = require('big.js');
 var LineItem = require('./line-item').LineItem;
 
 var Invoice = function Invoice(invoice) {
-    this._invoice = invoice.invoice;
+    this._invoice = invoice;
 
     this._lineItems = [];
     this._totals = {
@@ -43,19 +43,15 @@ Invoice.prototype.getCurrencySymbol = function() {
 };
 
 Invoice.prototype.getIban = function() {
-    return this._invoice.paymentDetails.iban;
+    return this._invoice.iban;
 };
 
 Invoice.prototype.getSwift = function() {
-    return this._invoice.paymentDetails.swift;
+    return this._invoice.swift;
 };
 
 Invoice.prototype.getReference = function() {
-    return this._invoice.paymentDetails.reference;
-};
-
-Invoice.prototype.getMeta = function() {
-    return this._invoice.meta;
+    return this._invoice.paymentReference;
 };
 
 Invoice.prototype.getLineItems = function() {

@@ -17,9 +17,12 @@
   },
   "homepage": "https://github.com/idleplaythings/idle-invoice",
   "dependencies": {
-    "pdfkit": "0.5.2",
+    "csv": "0.3.7",
+    "google-spreadsheet": "^2.0.3",
+    "googleapis": "^18.0.0",
     "js-yaml": "3.0.2",
-    "csv": "0.3.7"
+    "lodash": "^4.17.4",
+    "pdfkit": "0.5.2"
   },
   "devDependencies": {
     "jasmine-node": "1.14.x"

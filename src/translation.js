@@ -26,6 +26,10 @@ Translation.prototype._loadSource = function(source) {
 };
 
 Translation.prototype._numericMatch = function(str) {
+    if (!str) {
+        return false;
+    }
+
     if (typeof this._source.__numeric !== 'object') {
         return false;
     }
